@@ -1,0 +1,20 @@
+Pedestrian modeling
+
+Kota Yamaguchi <kyamagu@cs.sunysb.edu> 2011
+
+Files
+=====
+
+Matlab Scripts
+--------------
+  main*.m:  experimental tasks
+
+Matlab Functions
+----------------
+  importData.m:  load everything into matlab struct
+  ewapLoad.m:    function to import ewap dataset
+  ucyLoad.m:     function to import ucy dataset
+
+  pathPredict.m: predict next position and velocity given data and params
+  myEnergy.m:    energy function implementation
+  
