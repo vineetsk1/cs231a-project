@@ -10,7 +10,7 @@ from social_model import SocialModel
 from social_utils import SocialDataLoader
 from grid import getSequenceGridMask
 
-CHK_DIR = '/vision/u/agupta/social-lstm-tf/social_lstm/checkpoints'
+CHK_DIR = 'checkpoints'
 
 def main():
     parser = argparse.ArgumentParser()
@@ -113,8 +113,11 @@ def train(args):
         saver = tf.train.Saver(tf.all_variables())
         summary_writer = tf.summary.FileWriter(log_path, sess.graph)
 
+        print "test"
+
         # For each epoch
         for e in range(args.num_epochs):
+            print "e", e
             # Assign the learning rate value for this epoch
             sess.run(tf.assign(model.lr, args.learning_rate * (args.decay_rate ** e)))
             # Reset the data pointers in the data_loader
@@ -122,6 +125,7 @@ def train(args):
 
             # For each batch
             for b in range(data_loader.num_batches):
+                print "b", b
                 # Tic
                 start = time.time()
 
@@ -135,6 +139,7 @@ def train(args):
 
                 # For each sequence in the batch
                 for seq_num in range(data_loader.batch_size):
+                    print "seq_num", seq_num
                     # s_seq, t_seq and d_batch contains the source, target and dataset index data for
                     # seq_length long consecutive frames in the dataset
                     # s_seq, t_seq would be numpy arrays of size seq_length x maxNumPeds x 3

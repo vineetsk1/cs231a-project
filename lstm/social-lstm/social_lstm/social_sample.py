@@ -10,7 +10,7 @@ from social_utils import SocialDataLoader
 from social_model import SocialModel
 from grid import getSequenceGridMask
 # from social_train import getSocialGrid, getSocialTensor
-CHK_DIR = '/vision/u/agupta/social-lstm-tf/social_lstm/checkpoints'
+CHK_DIR = 'checkpoints'
 
 def make_save_path(args):
     folder_name = args.mode

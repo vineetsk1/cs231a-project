@@ -1,5 +1,5 @@
-
 % Script to compare different predictions
+addpath('SFfunctions')
 
 %% Load and preprocess dataset
 if ~exist('ewap_dataset.mat','file')
@@ -58,8 +58,8 @@ params = {...
 
 
 % t = 2142, 3102:6:3198
-vid = true;
-if vid, aviobj = avifile('outputhotel.avi','fps',1,'quality',100); end
+vid = false;
+% if vid, aviobj = avifile('outputhotel.avi','fps',1,'quality',100); end
 did = 2;  % defini quel database regarder (did = 1 ETH ;did = 2  HOTEL )
 
 Times = unique(D(D(:,1)==did,2))';j=0; 
@@ -92,30 +92,33 @@ for t = 1:300%D(D(:,1)==did & D(:,3)==50,2)'%Times(1:end)% '%%3102:6:3198%Times(
     
     
     % Show
-    seqShow(seq.(datasets{did}),groups,t);
+    % seqShow(seq.(datasets{did}),groups,t);
     
+    % disp(Ptru)
+    disp(Plin)
+    break
     
-    H = seq.(datasets{did}).H;
-    for id = persons
-        ptru = [Ptru(Ptru(:,1)==id,2:3) ones(nnz(Ptru(:,1)==id),1)]/H';
-        plin = [Plin(Plin(:,1)==id,2:3) ones(nnz(Plin(:,1)==id),1)]/H';
-        pewp = [Pewp(Pewp(:,1)==id,2:3) ones(nnz(Pewp(:,1)==id),1)]/H';
-        patr = [Patr(Patr(:,1)==id,2:3) ones(nnz(Patr(:,1)==id),1)]/H';
-        ptru = ptru(:,1:2)./repmat(ptru(:,3),[1 2]);
-        plin = plin(:,1:2)./repmat(plin(:,3),[1 2]);
-        pewp = pewp(:,1:2)./repmat(pewp(:,3),[1 2]);
-        patr = patr(:,1:2)./repmat(patr(:,3),[1 2]);
-        % Plot
+%     H = seq.(datasets{did}).H;
+%     for id = persons
+%         ptru = [Ptru(Ptru(:,1)==id,2:3) ones(nnz(Ptru(:,1)==id),1)]/H';
+%         plin = [Plin(Plin(:,1)==id,2:3) ones(nnz(Plin(:,1)==id),1)]/H';
+%         pewp = [Pewp(Pewp(:,1)==id,2:3) ones(nnz(Pewp(:,1)==id),1)]/H';
+%         patr = [Patr(Patr(:,1)==id,2:3) ones(nnz(Patr(:,1)==id),1)]/H';
+%         ptru = ptru(:,1:2)./repmat(ptru(:,3),[1 2]);
+%         plin = plin(:,1:2)./repmat(plin(:,3),[1 2]);
+%         pewp = pewp(:,1:2)./repmat(pewp(:,3),[1 2]);
+%         patr = patr(:,1:2)./repmat(patr(:,3),[1 2]);
+%         % Plot
         
-        hold on;
-        text(5,10,sprintf('Frame %d',t),'Color','w');
-        h0 = plot(ptru(:,2),ptru(:,1),'-w');
-        h1 = plot(plin(:,2),plin(:,1),'-b');
-        h2 = plot(pewp(:,2),pewp(:,1),'-g');
-        h3 = plot(patr(:,2),patr(:,1),'-r');
-%         legend([h0 h1 h2 h3],['TRU' methods]);
-        hold off;
-    end
+%         hold on;
+%         text(5,10,sprintf('Frame %d',t),'Color','w');
+%         h0 = plot(ptru(:,2),ptru(:,1),'-w');
+%         h1 = plot(plin(:,2),plin(:,1),'-b');
+%         h2 = plot(pewp(:,2),pewp(:,1),'-g');
+%         h3 = plot(patr(:,2),patr(:,1),'-r');
+% %         legend([h0 h1 h2 h3],['TRU' methods]);
+%         hold off;
+%     end
     % Write
     
     drawnow;

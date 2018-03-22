@@ -1,0 +1,2 @@
+Average speed 133.98742601717058
+Number pedestrians 423
