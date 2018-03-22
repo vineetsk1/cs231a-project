@@ -1,0 +1,835 @@
+<html>
+<head>
+
+<title>Trajnet: CS231A Results</title>
+
+<style>
+*, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+body, html { font-size: 100%; padding: 0; margin: 0;}
+
+body {
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+}
+
+.column {
+	position: fixed;
+	width: 20%;
+	height: 100%;
+	background-color: #01161E;
+	display: table;
+}
+
+.container {
+	width: 80%;
+	position: absolute;
+	background-color: white;
+	left: 20%;
+	padding-bottom: 50px;
+}
+
+.sidebar {
+	background-color: #01161E;
+}
+
+.sidebar .title, .sidebar .subtitle {
+	color: #AAAAAA;
+	width: 100%;
+	margin-top: 50px;
+	margin-left: 25px;
+}
+
+.sidebar .title {
+	font-weight: 300;
+	font-size: 40px;
+}
+
+.sidebar .subtitle {
+	font-weight: 200;
+	font-size: 15px;
+	font-style: italic;
+	color: #888888;
+	margin-top: 20px;
+}
+
+.sidebar .links {
+	margin-top: 50px;
+	margin-left: 25px;
+}
+
+a {
+	text-decoration: none;
+}
+
+.sidebar .link {
+	color: #AAAAAA;
+	width: 100%;
+	font-weight: 200;
+	font-size: 15px;
+	text-decoration: none;
+	height: 100%;
+	margin-top: 20px;
+	background-color: rgba(1, 60, 100, 1.0);
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-left: -10px;
+	padding-left: 10px;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.sidebar .link:hover {
+	background-color: rgba(1, 60, 100, 0.7);
+}
+
+.sidebar a .link:hover {
+	/*color: #3388FF;*/
+}
+
+.container div {
+	margin-left: 50px;
+}
+
+.container .title {
+	margin-top: 50px;
+	font-size: 40px;
+	font-weight: 200;
+}
+
+.container .spacing {
+	height: 70px;
+	width: 100%;
+}
+
+.container .subtitle {
+	margin-left: 0px;
+	margin-top: 30px;
+	font-size: 25px;
+	font-weight: 200;
+}
+
+.select {
+  margin-top: 20px;
+  position: absolute;
+  height: 47.5px;
+  background: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.05);
+}
+.select:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 0;
+  right: 10px;
+  bottom: 0;
+  margin: auto;
+  border-style: solid;
+  border-width: 5px 5px 0 5px;
+  border-color: #a52c2c transparent transparent transparent;
+  pointer-events: none;
+}
+.select:before {
+  width: 30px;
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  bottom: 1px;
+  background: whitesmoke;
+  content: '';
+  pointer-events: none;
+}
+.select:hover:before {
+  background: #ffcfcf;
+}
+.select select {
+  font-size: 14px;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  background: transparent;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  padding-right: 35px;
+  padding-left: 15px;
+  /*border: none;*/
+  /*border: 1px solid #a52c2c;*/
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+.select select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+.select select::-ms-expand {
+  display: none;
+}
+.select select:focus {
+  border-color: #63ffb4;
+}
+
+.container .imgresult {
+	margin-top: 10px;
+	max-width: 300px;
+	margin-left: 0px;
+	float: left;
+}
+
+.container .graphresult:nth-child(2) {
+	margin-left: 50px;
+}
+
+.container .graphresult {
+	margin-top: 10px;
+	max-width: 200px;
+	float: left;
+	margin-left: 20px;
+}
+
+.imgresult img {
+	max-width: 300px;
+	margin-top: 10px;
+}
+
+.graphresult canvas {
+	border: 1px solid rgb(100, 100, 100);
+	max-width: 200px;
+	margin-top: 20px;
+}
+
+.container .imgresult2 {
+	margin-top: 10px;
+	max-width: 500px;
+	margin-left: 0px;
+	float: left;
+}
+
+.imgresult2 img {
+	max-width: 500px;
+	margin-top: 10px;
+}
+
+.imgresult .subtitle, .graphresult .subtitle {
+	text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    margin-top: 20px;
+    width: 500px;
+    font-size: 14px;
+}
+
+td, th {
+    border: 1px solid #aaaaaa;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="column sidebar">
+	<div class="title">Trajnet</div>
+	<div class="subtitle">Towards a Benchmark for Human Trajectory Prediction</div>
+	<div class="links">
+		<a href="#" onclick="activateContainer(1);"><div class="link">Dataset Metrics</div></a>
+		<a href="#" onclick="activateContainer(2);"><div class="link">Dataset Animations</div></a>
+		<a href="#" onclick="activateContainer(3);"><div class="link">Leaderboard &amp; Results</div></a>
+		<a href="#" onclick="activateContainer(4);"><div class="link">Prediction Visualization</div></a>
+		<a href="http://trajnet.stanford.edu/workshops/2018/" target="_blank"><div class="link">CVPR Workshop</div></a>
+		<a href="http://trajnet.stanford.edu" target="_blank"><div class="link">TrajNet Website</div></a>
+	</div>
+</div>
+
+<div class="container" id="container1">
+	<div id="title" class="title">Dataset Metrics</div>
+
+	<div class="select">
+		<select id="options">
+		</select>
+	</div>
+	<div class="spacing"></div>
+
+	<div id="results">
+	</div>
+
+</div>
+
+<div class="container" id="container2">
+	<div id="title2" class="title">Dataset Animations</div>
+
+	<div class="select">
+		<select id="options2">
+		</select>
+	</div>
+	<div class="spacing"></div>
+
+	<div id="results2">
+	</div>
+
+</div>
+
+<div class="container" id="container3">
+	<div class="title">Leaderboard &amp; Results</div>
+
+	<div id="tables">
+	</div>
+
+</div>
+
+<div class="container" id="container4">
+	<div class="title">Prediction Visualization - Biwi ETH</div>
+
+	<div class="graphresult">
+		<div class="subtitle">Ground Truth</div>
+		<canvas id="canvas0" width="200px" height="200px"></canvas>
+	</div>
+
+	<div class="graphresult">
+		<div class="subtitle">Linear</div>
+		<canvas id="canvas1" width="200px" height="200px"></canvas>
+	</div>
+
+	<div class="graphresult">
+		<div class="subtitle">Interaction GP</div>
+		<canvas id="canvas2" width="200px" height="200px"></canvas>
+	</div>
+
+	<div class="graphresult">
+		<div class="subtitle">Naive-LSTM</div>
+		<canvas id="canvas3" width="200px" height="200px"></canvas>
+	</div>
+
+</div>
+
+<script>
+
+var EXTENSION = ".png";
+var EXTENSION2 = ".gif";
+var ROOT = "out/";
+var ANIM_FOLDER = "image_frame/";
+var FOLDERS = ["positions", "density_1", "density_2", "pedestrian_speed", "speed_histogram", "speed_image_space"];
+var NCONTAINERS = 4;
+var NHEADERS = 5;
+
+var datasets = {
+	"bookstore_":"[0:3]",
+	"coupa_":"[0:3]-2",
+	"crowds_zara0":"[1:3]",
+	"deathCircle_":"[0:4]",
+	"gates_":"[0:8]",
+	"hyang_":"[0:9]-2",
+	"little_":"[0:3]",
+	"nexus_":"[0:9]",
+	"quad_":"[0:3]",
+	"students00":"[1:3]-2",
+	"uni_examples":""
+}
+
+var datasets2 = ["coupa_0", "coupa_1", "crowds_zara01", "gates_2", "hyang_0", "hyang_1", "hyang_3", "hyang_8", "little_0", "little_1", "little_2", "little_3", "nexus_5", "uni_examples"];
+
+var leaderdescriptions = ["All (Linear & Nonlinear) Sequences", "Just NonLinear Sequences", "All (Linear & Nonlinear) Sequences", "Just Nonlinear Sequences"];
+var leaderboards = [
+
+`METHOD Pred-L2 Final-L2 Pred-L1 Final-L1
+ -                          - 			- 			- 			 
+LINEAR 					- 			- 			- 			- 
+overall/                  0.15784     3.05612     0.19517     3.76419     
+biwi/                    0.22143     4.13923     0.27603     5.08431     
+crowds/                  0.09581     1.87971     0.12033     2.37328     
+stanford/                0.16139     3.13081     0.19922     3.85017
+ -                          - 			- 			- 			 
+SF-ATTR 					- 			- 			- 			- 
+
+overall/                  0.12529     2.5322      0.15543     3.13561     
+biwi/                    0.16161     3.25371     0.19861     3.96824     
+crowds/                  0.0935      1.84576     0.11746     2.33304     
+stanford/                0.1269      2.57051     0.15736     3.18105
+ - - 			- 			- 			- 
+SF-EWAP 					- 			- 			- 			- 
+
+overall/                  0.11567(*)     2.76805     0.13826(*)     3.33661     
+biwi/                    0.13609(*)     3.32212     0.17249(*)     4.26553     
+crowds/                  0.09159(*)     2.17168     0.10959(*)     2.60526     
+stanford/                0.1173(*)      2.80561     0.13962(*)     3.36801
+ - - 			- 			- 			- 
+IGP 					- 			- 			- 			- 
+
+overall/                  0.30332     0.94976(*)     0.38248     1.21242(*)     
+biwi/                    0.35179     1.03451(*)     0.44041     1.28601(*)     
+crowds/                  0.37433     1.0488(*)      0.47036     1.33884(*)     
+stanford/                0.29211     0.93313(*)     0.36873     1.19322(*)`,
+
+`METHOD Pred-L2 Final-L2 Pred-L1 Final-L1
+ -                          - 			- 			- 			 
+LINEAR 					- 			- 			- 			- 
+
+Overall                  0.10319     2.09418     0.12744     2.57478     
+biwi/                    0.20202     3.78325     0.25272     4.66451     
+crowds/                  0.04538     0.96955     0.0575      1.23205     
+stanford/                0.10418     2.12714     0.1283      2.60983
+ -                          - 			- 			- 			 
+SF-ATTR 					- 			- 			- 			- 
+
+Overall                  0.08641     1.83058     0.10695     2.26104     
+biwi/                    0.14631     2.96475     0.18019     3.61353     
+crowds/                  0.04469(*)  0.96242     0.05664     1.22461     
+stanford/                0.08779     1.866       0.10856     2.30341
+ -                          - 			- 			- 			 
+
+SF-EWAP 					- 			- 			- 			- 
+
+Overall                  0.07572(*)     1.88148     0.09249     2.31973     
+biwi/                    0.12418(*)     3.05048     0.15744     3.924       
+crowds/                  0.05121        1.25865     0.06084     1.49961     
+stanford/                0.07575(*)     1.88599     0.09239     2.32184
+ -                          - 			- 			- 			 
+
+IGP 					- 			- 			- 			- 
+
+Overall                  0.11909     0.3546      0.15091     0.45033     
+biwi/                    0.2778      0.82467     0.34808     1.03547     
+crowds/                  0.12145     0.31839     0.14914     0.40154     
+stanford/                0.10948     0.33121     0.13951     0.42165`,
+
+
+    "Dataset/Method P-L2 F-L2 P-L1 F-L1 \
+     :biwi_eth_Linear 0.22142870533216233 4.139231758222113 0.27603213507625274 5.084313725490195 \
+     :biwi_eth_SF-ATTR    0.16160919879527147 3.2537100800923473 0.19860793409586053 3.96823531372549 \
+     :biwi_eth_SF-EWAP    0.13608790399755014 3.322123438227082 0.17248992374727667 4.265529411764707 \
+     :biwi_eth_IGP    0.35178684913265296 1.034508941549332 0.4404061346667261 1.286009006266035 \
+     :biwi_eth_Naive-LSTM 0.14454823060498523 2.3259094502944118 0.17912050208252897 2.861921514241288 \
+     :uni_examples_Linear 0.09688767461127736, 1.8923076447450091, 0.11958766339869281, 2.359223529411765 \
+     :uni_examples_SF-ATTR 0.09465472964047458, 1.8626757640232874, 0.11701723807189543, 2.3302588235294124 \
+     :uni_examples_SF-EWAP 0.10791537517579695, 2.5688552760368943, 0.12759609477124187, 3.0455764705882364 \
+     :uni_examples_IGP 0.38687197310227706, 1.0473981777353412, 0.48742823259377316, 1.3372321265264748 \
+     :uni_examples_Naive-LSTM 0.11877073964777989, 2.240951379658609, 0.15192601505065445, 2.8247327586351645 \
+     :crowds_zara01_Linear 0.09473076038660434, 1.867110565161274, 0.12107126593806912, 2.3873333333333324 \
+     :crowds_zara01_SF-ATTR 0.09233896751185326, 1.8288508193837507, 0.11789775728597444, 2.3358142240437156 \
+     :crowds_zara01_SF-EWAP 0.07526625301537868, 1.7745015434216196, 0.09158799332119005, 2.1649486338797805 \
+     :crowds_zara01_IGP 0.3617949309098963, 1.0502001312169378, 0.4532904576581764, 1.340447385524324 \
+     :crowds_zara01_Naive-LSTM 0.24457057444115687, 3.1603914310063637, 0.3031115244066813, 3.9433853925864066",
+
+    "Dataset/Method P-L2 F-L2 P-L1 F-L1 \
+     :biwi_eth_Linear 0.20202339301160024, 3.7832516374179, 0.2527178649237472, 4.664509803921567 \
+     :biwi_eth_SF-ATTR    0.14631407866040308, 2.964748260961668, 0.1801888148148148, 3.6135293921568628 \
+     :biwi_eth_SF-EWAP    0.12417882415743574, 3.0504798555247485, 0.15743709150326796, 3.9240000000000004 \
+     :biwi_eth_IGP    0.27780170773440654, 0.8246655630187537, 0.34807992312342145, 1.0354730350456742 \
+     :biwi_eth_Naive-LSTM 0.12145335479322973, 1.916460876834277, 0.1501196778630983, 2.363247299136847 \
+     :uni_examples_Linear 0.05250421062835543, 1.1108510019030509, 0.06575498366013073, 1.4020588235294118 \
+     :uni_examples_SF-ATTR 0.05164737948057932, 1.1051189604692475, 0.06478325065359478, 1.3994627411764704 \
+     :uni_examples_SF-EWAP 0.06649270949631074, 1.6470324645886083, 0.07794946078431371, 1.9433341176470589 \
+     :uni_examples_IGP 0.1699769103786161, 0.3949427147287199, 0.2083328409661946, 0.4955581061885413 \
+     :uni_examples_Naive-LSTM 0.059861106903380396, 1.0637970265006085, 0.07839185130037488, 1.3656229941482647 \
+     :crowds_zara01_Linear 0.03825447379045532, 0.8282416622492327, 0.04924639496053431, 1.0620491803278687 \
+     :crowds_zara01_SF-ATTR 0.03772286460891086, 0.8197151341029639, 0.04850136604432301, 1.0497577377049179 \
+     :crowds_zara01_SF-EWAP 0.03592159600420599, 0.8702632062535912, 0.04372267000607164, 1.0558918032786888 \
+     :crowds_zara01_IGP 0.07292825832554392, 0.24184198407414995, 0.08995245456733583, 0.3075270405224173 \
+     :crowds_zara01_Naive-LSTM 0.06039348651831503, 0.8129151991793566, 0.07474835467896895, 1.0463794695627882"
+
+   ];
+
+var titleelem = document.getElementById("title");
+var titleelem2 = document.getElementById("title2");
+var select = document.getElementById("options");
+var select2 = document.getElementById("options2");
+var results = document.getElementById("results");
+var tables = document.getElementById("tables");
+var currentActive = -1;
+var containers = []
+
+function setupContainers() {
+	for(var i = 1; i <= NCONTAINERS; i++) {
+		containers.push(document.getElementById("container" + i));
+	}
+	hideContainers();
+}
+
+function hideContainers() {
+	for(var i = 0; i < containers.length; i++) {
+		containers[i].style.display = "none";
+	}
+}
+
+function activateContainer(newActive) {
+	currentActive = newActive;
+	hideContainers();
+	containers[currentActive - 1].style.display = "block";
+}
+
+
+function cleanName(name) {
+	name = name.split("_");
+	for (var i = 0; i < name.length; i++) {
+		name[i] = name[i].substring(0, 1).toUpperCase() 
+					+ name[i].substring(1).toLowerCase();
+	}
+	name = name.join(" ");
+	return name;
+}
+
+function cleanName2(name) {
+	name = name.split("_");
+	for (var i = 0; i < name.length; i++) {
+		name[i] = name[i].substring(0, 1).toUpperCase() 
+					+ name[i].substring(1);
+	}
+	name = name.join(" ");
+	return name;
+}
+
+function processDatasets() {
+	var ds = {}
+
+	for (var key in datasets) {
+		if (!datasets.hasOwnProperty(key)) continue;
+
+		if (datasets[key] === "") {
+			ds[cleanName(key)] = key + EXTENSION;
+		} else {
+			// Indeces
+			var startBracket = datasets[key].indexOf("[");
+			var middleToken = datasets[key].indexOf(":");
+			var endBracket = datasets[key].indexOf("]");
+			var skipToken = datasets[key].indexOf("-");
+
+			var start = parseInt(datasets[key].substring(startBracket+1, middleToken));
+			var end = parseInt(datasets[key].substring(middleToken+1, endBracket));
+
+			if (skipToken != -1) {
+				skipToken = parseInt(datasets[key].substring(skipToken+1));
+			}
+
+			for (var i = start; i <= end; i++) {
+				if (i == skipToken) continue;
+				var newkey = key + i;
+				ds[cleanName(newkey)] = newkey + EXTENSION;
+			}
+		}
+
+	}
+
+	datasets = ds;
+}
+
+function createSelection() {
+	var selected = true;
+	for(var key in datasets) {
+		if (!datasets.hasOwnProperty(key)) continue;
+		var newElem = "<option ";
+		if(selected) newElem += " selected ";
+		newElem += "value='" + datasets[key] + "'>" + key + "</option>";
+
+		select.innerHTML += newElem
+		selected = false;
+	}
+}
+
+function createSelection2() {
+	var selected = true;
+	for(var i = 0; i < datasets2.length; i++) {
+		var key = datasets2[i];
+		var newElem = "<option ";
+		if(selected) newElem += " selected ";
+		newElem += "value='" + key + "'>" + cleanName(key) + "</option>";
+
+		select2.innerHTML += newElem
+		selected = false;
+	}
+}
+
+function showResults() {
+	var filename = select.options[select.selectedIndex].text;
+	titleelem.innerHTML = "Dataset Metrics: " + filename; 
+
+	results.innerHTML = "";
+	for (var i = 0; i < FOLDERS.length; i++) {
+		var filename = select.options[select.selectedIndex].value;
+		var newelem = "<div class='imgresult'><div class='subtitle'>" + cleanName(FOLDERS[i]) + "</div>" + "<img src='" + ROOT + FOLDERS[i] + "/" + filename + "'/></div>";
+		results.innerHTML += newelem;
+	}
+}
+
+function showResults2() {
+	var filename = select2.options[select2.selectedIndex].text;
+	titleelem2.innerHTML = "Dataset Animations: " + filename; 
+
+	filename = select2.options[select2.selectedIndex].value;
+	results2.innerHTML = "";
+	results2.innerHTML += "<div class='imgresult2'><div class='subtitle'>Trajectories over Time</div><img src='" + ROOT + ANIM_FOLDER + filename + EXTENSION2 + "'/></div>";
+
+}
+
+function splitLeaderboards() {
+	for(var i = 0; i < leaderboards.length; i++) {
+		leaderboards[i] = leaderboards[i].split(/[ ,]+/);
+	}
+}
+
+function createTables() {
+	tables.innerHTML = "";
+	for(var i = 0; i < leaderboards.length; i++) {
+		tables.innerHTML += "<div class='subtitle'>" + leaderdescriptions[i] + "</div>";
+		var table = "<table>";
+		for(var j = 0; j < leaderboards[i].length; j+= NHEADERS) {
+			if (leaderboards[i][j] == "" || leaderboards[i][j] == undefined) break;
+			table += "<tr>";
+			for(var k = j; k < j + NHEADERS; k++) {
+				if (leaderboards[i][k] == "" || leaderboards[i][k] == undefined) break;
+			if(leaderboards[i][k].trim() == "-") leaderboards[i][k] = " ";
+				if (leaderboards[i][k].indexOf(":") == 0) {
+					leaderboards[i][k] = cleanName2(leaderboards[i][k].substring(1));
+				}
+				var startTag = "td";
+				if(j == 0) startTag = "th";
+				table += "<" + startTag + ">" + leaderboards[i][k] + "</" + startTag + ">";
+			}
+			table += "</tr>";
+		}
+		table += "</table>";
+		tables.innerHTML += table;
+	}
+}
+
+function getText(loc, callback){
+    // read text from URL location
+    var request = new XMLHttpRequest();
+    request.open('GET', loc, true);
+    request.send(null);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4 && request.status === 200) {
+            var type = request.getResponseHeader('Content-Type');
+            if (type.indexOf("text") !== 1 && callback) {
+                callback(request.responseText);
+            }
+        }
+    }
+}
+
+function processText(text) {
+
+	var lineMap = {};
+	var frames = [];
+	text = text.split("\n");
+
+	for(var i = 0; i < text.length; i++) {
+		var line = text[i].split(" ");
+		line[0] = parseInt(parseFloat(line[0]));
+		line[1] = parseFloat(line[1]);
+		line[2] = parseFloat(line[2]);
+		line[3] = parseFloat(line[3]);
+		if (!(line[0] in lineMap)) {
+			frames.push(line[0]);
+			lineMap[line[0]] = [];
+		}
+		lineMap[line[0]].push([line[1], line[2], line[3]]);
+	}
+
+	return {frames:frames, map:lineMap};
+}
+
+function getBounds(frames, map) {
+	var minX = undefined, maxX = undefined, minY = undefined, maxY = undefined;
+	for(var i = 0; i < frames.length; i++) {
+		for(var j = 0; j < map[frames[i]].length; j++) {
+			var x = map[frames[i]][j][1];
+			var y = map[frames[i]][j][2];
+			if (minX == undefined || x < minX) minX = x;
+			if (maxX == undefined || x > maxX) maxX = x;
+			if (minY == undefined || y < minY) minY = y;
+			if (maxY == undefined || y > maxY) maxY = y;
+		}
+	}
+	return [minX, minY, maxX, maxY]
+}
+
+var frames = [];
+var map = {};
+var bounds = undefined;
+var currentFrame = -1;
+var frameIndex = 0;
+
+var textFilesLoaded = 0;
+var ALL_TEXTS = 4;
+
+function saveText() {
+	getText("data/gt/biwi_eth.txt", function(responseText) {
+		textFilesLoaded += 1
+		var data = processText(responseText);
+		frames = data.frames; // todo merge
+		map.gt = data.map;
+		bounds = getBounds(frames, map.gt); // todo merge
+		if (textFilesLoaded == ALL_TEXTS) {
+			doneTexts();
+		}
+	});
+	getText("data/lin/biwi_eth.txt", function(responseText) {
+		textFilesLoaded += 1
+		var data = processText(responseText);
+		frames = data.frames; // todo merge
+		map.lin = data.map;
+		bounds = getBounds(frames, map.lin); // todo merge
+		if (textFilesLoaded == ALL_TEXTS) {
+			doneTexts();
+		}
+	});
+	getText("data/igp/biwi_eth.txt", function(responseText) {
+		textFilesLoaded += 1
+		var data = processText(responseText);
+		frames = data.frames; // todo merge
+		map.igp = data.map;
+		bounds = getBounds(frames, map.igp); // todo merge
+		if (textFilesLoaded == ALL_TEXTS) {
+			doneTexts();
+		}
+	});
+	getText("data/naive/biwi_eth.txt", function(responseText) {
+		textFilesLoaded += 1
+		var data = processText(responseText);
+		frames = data.frames; // todo merge
+		map.naive = data.map;
+		bounds = getBounds(frames, map.naive); // todo merge
+		if (textFilesLoaded == ALL_TEXTS) {
+			doneTexts();
+		}
+	});
+}
+
+function doneTexts() {
+	frameIndex = 0;
+	currentFrame = frames[frameIndex];
+	animateFrame(ctx0, map.gt, map.gt);
+	animateFrame(ctx1, map.gt, map.lin);
+	animateFrame(ctx2, map.gt, map.igp);
+	animateFrame(ctx3, map.gt, map.naive);
+}
+
+var canvas0 = document.getElementById("canvas0");
+var ctx0 = canvas0.getContext("2d");
+
+var canvas1 = document.getElementById("canvas1");
+var ctx1 = canvas1.getContext("2d");
+
+var canvas2 = document.getElementById("canvas2");
+var ctx2 = canvas2.getContext("2d");
+
+var canvas3 = document.getElementById("canvas3");
+var ctx3 = canvas3.getContext("2d");
+
+
+var CANVAS_WIDTH = canvas1.width;
+var CANVAS_HEIGHT = canvas1.height;
+var POINT_WIDTH = 3;
+var POINT_HEIGHT = POINT_WIDTH;
+var POINT_RADIUS = 3;
+
+// Red to green
+var COLORS = ["f80c12", "ee1100", "ff3311", "ff4422", "ff6644", "ff9933", "feae2d", "ccbb33", "d0c310", "aacc22", "69d025", "22ccaa", "12bdb9", "11aabb", "4444dd", "3311bb", "3b0cbd", "442299"];
+
+function displayFrame(ctx, gt, pred) {
+
+	ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+	// displayAxes(ctx);
+
+	for(var i = 0; i < frames.length; i++) {
+		if(frames[i] <= currentFrame) {
+			var color = "000000";
+
+			if (frameIndex+1 < COLORS.length) {
+				var distance = frameIndex - i;
+				color = COLORS[distance];
+			} else {
+				var scale = COLORS.length / (frameIndex+1);
+				var distance = frameIndex - i;
+				distance *= scale;
+				distance = Math.round(distance);
+				color = COLORS[distance];	
+			}
+
+			// for(var j = 0; j < gt[frames[i]].length; j++) {
+			// 	plotPoint(ctx, gt[frames[i]][j][1], gt[frames[i]][j][2], "#" + color + "22", "square");
+			// }
+
+			for(var j = 0; j < pred[frames[i]].length; j++) {
+				plotPoint(ctx, pred[frames[i]][j][1], pred[frames[i]][j][2], "#" + color + "FF", "square"); // "circle"
+			}
+
+		}
+	}
+}
+
+function nextFrame(ctx, gt, pred) {
+	frameIndex += 1
+	if (frameIndex >= frames.length) {
+		frameIndex = 0;
+	}
+	currentFrame = frames[frameIndex];
+	displayFrame(ctx, gt, pred);
+}
+
+var animateInterval = -1;
+var TIMESTEP = 120;
+function animateFrame(ctx, gt, pred) {
+	animateInterval = setInterval(function(){nextFrame(ctx, gt, pred);}, TIMESTEP);
+}
+
+function plotPoint(ctx, x, y, color, shape) { // later color and shape
+	x = CANVAS_WIDTH*(x-bounds[0])/(bounds[2] - bounds[0]);
+	y = CANVAS_HEIGHT*(y-bounds[1])/(bounds[3] - bounds[1]);
+	ctx.fillStyle = color;
+	if(shape == "square") {
+		ctx.beginPath();
+		ctx.rect(x - POINT_WIDTH/2, y - POINT_HEIGHT/2, POINT_WIDTH, POINT_HEIGHT);
+		ctx.closePath();
+	} else if(shape == "circle") {
+		ctx.beginPath();
+		ctx.arc(x,y, POINT_RADIUS, 0, 2*Math.PI);
+		ctx.closePath();
+	}
+	ctx.fill();
+}
+
+function displayAxes(ctx) {
+	ctx.beginPath();
+	ctx.moveTo(CANVAS_WIDTH/2, 0);
+	ctx.lineTo(CANVAS_WIDTH/2, CANVAS_HEIGHT);
+	ctx.closePath();
+	ctx.stroke();
+	ctx.beginPath();
+	ctx.moveTo(0, CANVAS_HEIGHT/2);
+	ctx.lineTo(CANVAS_WIDTH, CANVAS_HEIGHT/2);
+	ctx.closePath();
+	ctx.stroke();
+}
+
+select.onchange = function() {
+	showResults();
+}
+
+select2.onchange = function() {
+	showResults2();
+}
+
+processDatasets();
+createSelection();
+createSelection2();
+showResults();
+showResults2();
+setupContainers();
+activateContainer(1);
+splitLeaderboards();
+createTables();
+saveText();
+
+</script>
+
+</body>
+</html>

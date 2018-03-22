@@ -32,6 +32,10 @@ The code for the `lstm` models is within `lstm`. The code for the naive lstm is 
 
 The code for the social forces and for interaction GP is within the `forecasting` folder.
 
+## Visualization
+
+Check out the visualization at [vineetsk1.github.io/cs231a-project-results/](http://vineetsk1.github.io/cs231a-project-results/). The code for the visualization is in website.
+
 ## License
 
 Please do not share code and/or data outside of the Stanford Vision and Learning Group (previously the Computational Vision and Geometry Lab), or outside of the course staff for CS231A for licensing reasons.

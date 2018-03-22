@@ -1,5 +1,6 @@
 
 % Script to compare different predictions
+addpath('SFfunctions')
 
 %% Load and preprocess dataset
 if ~exist('ewap_dataset.mat','file')

@@ -6,13 +6,13 @@ import time
 import pickle
 
 from model import Model
-from utils import DataLoader
+from utils import DataLoaderOriginal
 
 
 def main():
     parser = argparse.ArgumentParser()
     # RNN size parameter (dimension of the output/hidden state)
-    parser.add_argument('--rnn_size', type=int, default=128,
+    parser.add_argument('--rnn_size', type=int, default=128,#128,
                         help='size of RNN hidden state')
     # Number of layers parameter
     # TODO: (improve) Number of layers not used. Only a single layer implemented
@@ -23,26 +23,26 @@ def main():
     parser.add_argument('--model', type=str, default='lstm',
                         help='rnn, gru, or lstm')
     # Size of each batch parameter
-    parser.add_argument('--batch_size', type=int, default=50,
+    parser.add_argument('--batch_size', type=int, default=50, #50,
                         help='minibatch size')
     # Length of sequence to be considered parameter
-    parser.add_argument('--seq_length', type=int, default=8,
+    parser.add_argument('--seq_length', type=int, default=17, #8,
                         help='RNN sequence length')
     # Number of epochs parameter
-    parser.add_argument('--num_epochs', type=int, default=100,
+    parser.add_argument('--num_epochs', type=int, default=2000, #2000 #300, #100, #300, #default=100,
                         help='number of epochs')
     # Frequency at which the model should be saved parameter
-    parser.add_argument('--save_every', type=int, default=400,
+    parser.add_argument('--save_every', type=int, default=500,
                         help='save frequency')
     # Gradient value at which it should be clipped
     # TODO: (resolve) Clipping gradients for now. No idea whether we should
     parser.add_argument('--grad_clip', type=float, default=10.,
                         help='clip gradients at this value')
     # Learning rate parameter
-    parser.add_argument('--learning_rate', type=float, default=0.003,
+    parser.add_argument('--learning_rate', type=float, default=0.02, #default=0.003,
                         help='learning rate')
     # Decay rate for the learning rate parameter
-    parser.add_argument('--decay_rate', type=float, default=0.95,
+    parser.add_argument('--decay_rate', type=float, default=0.99, # 0.95
                         help='decay rate for rmsprop')
     # Dropout probability parameter
     # Dropout not implemented.
@@ -51,20 +51,26 @@ def main():
     # Dimension of the embeddings parameter
     parser.add_argument('--embedding_size', type=int, default=128,
                         help='Embedding dimension for the spatial coordinates')
-    parser.add_argument('--leaveDataset', type=int, default=3,
+    parser.add_argument('--leaveDataset', type=int, default=3, # NOT USED
                         help='The dataset index to be left out in training')
     args = parser.parse_args()
     train(args)
 
 
 def train(args):
-    datasets = range(4)
+    # datasets = range(4)
     # Remove the leaveDataset from datasets
-    datasets.remove(args.leaveDataset)
+    # datasets.remove(args.leaveDataset)
+
+    # datasets = range(38)
+    # datasets = [0, 1, 2]
+    datasets = [51]
 
     # Create the data loader object. This object would preprocess the data in terms of
     # batches each of size args.batch_size, of length args.seq_length
-    data_loader = DataLoader(args.batch_size, args.seq_length, datasets, forcePreProcess=True)
+    data_loader = DataLoaderOriginal(args.batch_size, args.seq_length, datasets, forcePreProcess=True)
+
+    print "Loaded data"
 
     # Save the arguments int the config file
     with open(os.path.join('save_lstm', 'config.pkl'), 'wb') as f:
@@ -72,6 +78,8 @@ def train(args):
 
     # Create a Vanilla LSTM model with the arguments
     model = Model(args)
+
+    print "Created model"
 
     # Initialize a TensorFlow session
     with tf.Session() as sess:
@@ -88,6 +96,8 @@ def train(args):
             data_loader.reset_batch_pointer()
             # Get the initial cell state of the LSTM
             state = sess.run(model.initial_state)
+
+            # print "Epoch", e
 
             # For each batch in this epoch
             for b in range(data_loader.num_batches):
